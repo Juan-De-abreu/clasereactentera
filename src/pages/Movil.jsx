@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import CardProduc from "../components/CardProduc";
 const API = "https://dummyjson.com/products/category/smartphones";
 

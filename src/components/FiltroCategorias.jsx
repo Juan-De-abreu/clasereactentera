@@ -1,21 +1,20 @@
-import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import CardProduc from "../components/CardProduc";
-const API = 'https://dummyjson.com/products/category/';
-const Categorias = () => {
-    const param=useParams();
+import { Link } from "react-router-dom"
+
+const API='https://dummyjson.com/products/categories';
+
+const FiltroCategorias = () => {
     const [datos, setDatos] = useState([]);
        const [loading, setLoading] = useState(true);
        const [error, setError] = useState(null);
         const getDatos = async () => {
                 try {
-                    const response = await fetch(API+param.slug);
+                    const response = await fetch(API);
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     const data = await response.json();
-                    setDatos(data.products);
+                    setDatos(data);
                     setLoading(false);
                 } catch (err) {
                     setError(err.message);
@@ -25,7 +24,7 @@ const Categorias = () => {
     
         useEffect(() => {
             getDatos();
-        }, [param.slug]);
+        }, []);
         if (loading) {
             return (
                 <div className="text-center py-5">
@@ -44,19 +43,20 @@ const Categorias = () => {
                 </div>
             );
         }
-  
-    return (
-    <div className="container">
-            <div className="row">
 
-                    <h3 className="text-center py-4">{param.name}</h3>
-                    {datos.map((item)=>(
-                    <CardProduc key={item.id} item={item} />
-                    ))}
-            
-            </div>
-  </div>
-  )
+
+
+  return (
+    <>
+
+
+        {datos.map((item,index) => (
+
+        <li key={index}><Link  to={`categorias/${item.slug}/${item.name}`} className="dropdown-item" href="#">{item.name}</Link></li>
+
+                ))}
+
+    </>  )
 }
 
-export default Categorias
+export default FiltroCategorias
